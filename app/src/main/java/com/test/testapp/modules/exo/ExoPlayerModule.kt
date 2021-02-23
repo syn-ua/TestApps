@@ -2,7 +2,6 @@ package com.test.testapp.modules.exo
 
 import android.content.Context
 import androidx.lifecycle.MutableLiveData
-import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.metadata.Metadata
@@ -22,10 +21,7 @@ class ExoPlayerModule @Inject constructor(
     private val view: StyledPlayerView = StyledPlayerView(context);
     private val metadata: MutableLiveData<Metadata> = MutableLiveData();
 
-    init {
-        val renderersFactory = DefaultRenderersFactory(
-            context
-        )
+    init { 
         view.player = player
         player.setThrowsWhenUsingWrongThread(false)
         player.addMetadataOutput(this);
