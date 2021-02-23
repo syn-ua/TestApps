@@ -6,7 +6,6 @@ interface PlayerModule {
     suspend fun setUrl(url: String)
     suspend fun start()
     suspend fun stop()
-    suspend fun init();
     suspend fun getView(): View
 
 }

@@ -19,5 +19,9 @@ class RetrofitModule @Inject constructor(
         return api!!
     }
 
+    override suspend fun getStreamsAddresses(): List<String> {
+        TODO("Not yet implemented")
+    }
+
 
 }

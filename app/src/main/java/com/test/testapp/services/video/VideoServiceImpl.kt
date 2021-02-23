@@ -6,6 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import com.test.testapp.interfaces.modules.ApiModule
 import com.test.testapp.interfaces.modules.PlayerModule
 import com.test.testapp.interfaces.services.VideoService
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class VideoServiceImpl @Inject constructor(
@@ -14,13 +17,20 @@ class VideoServiceImpl @Inject constructor(
 
 ) : VideoService {
     private val listStreams: MutableLiveData<List<String>> = MutableLiveData();
-    override suspend fun startVideo(url: String) = playerModule.setUrl(url)
+
+
+    override suspend fun startVideo(url: String) {
+        playerModule.setUrl(url)
+        playerModule.start()
+    }
 
     override suspend fun stopVideo() = playerModule.stop()
 
-    override suspend fun getVideoList(): LiveData<List<String>> {
+    override fun getVideoList(): LiveData<List<String>> {
         if (listStreams.value == null || listStreams.value!!.isEmpty()) {
-            listStreams.postValue(apiModule.getStreamsAddresses())
+            GlobalScope.launch(IO) {
+                listStreams.postValue(apiModule.getStreamsAddresses())
+            }
         }
         return listStreams;
     }
