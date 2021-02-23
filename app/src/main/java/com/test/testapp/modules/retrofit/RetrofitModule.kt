@@ -1,7 +1,7 @@
 package com.test.testapp.modules.retrofit
 
 import com.test.testapp.BuildConfig
-import com.test.testapp.interfaces.ApiModule
+import com.test.testapp.interfaces.modules.ApiModule
 import javax.inject.Inject
 
 
