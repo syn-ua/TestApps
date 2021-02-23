@@ -1,8 +1,12 @@
 package com.test.testapp.modules.exo
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
+import com.google.android.exoplayer2.DefaultRenderersFactory
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.SimpleExoPlayer
+import com.google.android.exoplayer2.metadata.Metadata
+import com.google.android.exoplayer2.metadata.MetadataOutput
 import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.test.testapp.interfaces.modules.PlayerModule
 import kotlinx.coroutines.Dispatchers.Main
@@ -13,13 +17,19 @@ import javax.inject.Inject
 
 class ExoPlayerModule @Inject constructor(
     private val context: Context
-) : PlayerModule {
+) : PlayerModule, MetadataOutput {
     var player = SimpleExoPlayer.Builder(context).build()
     private val view: StyledPlayerView = StyledPlayerView(context);
+    private val metadata: MutableLiveData<Metadata> = MutableLiveData();
 
     init {
+        val renderersFactory = DefaultRenderersFactory(
+            context
+        )
         view.player = player
         player.setThrowsWhenUsingWrongThread(false)
+        player.addMetadataOutput(this);
+
     }
 
 
@@ -42,4 +52,11 @@ class ExoPlayerModule @Inject constructor(
 
 
     override suspend fun getView() = view;
+    override fun getMetaData() = metadata
+
+    override fun onMetadata(metadata: Metadata) {
+        this.metadata.postValue(metadata)
+    }
+
+
 }

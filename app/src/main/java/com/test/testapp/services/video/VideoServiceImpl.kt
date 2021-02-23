@@ -3,6 +3,7 @@ package com.test.testapp.services.video
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.exoplayer2.metadata.Metadata
 import com.test.testapp.interfaces.modules.ApiModule
 import com.test.testapp.interfaces.modules.PlayerModule
 import com.test.testapp.interfaces.services.VideoService
@@ -34,6 +35,8 @@ class VideoServiceImpl @Inject constructor(
         }
         return listStreams;
     }
+
+    override fun getMetaData() = playerModule.getMetaData()
 
     override suspend fun getView() = playerModule.getView()
 }

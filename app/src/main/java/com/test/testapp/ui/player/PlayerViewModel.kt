@@ -5,6 +5,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.google.android.exoplayer2.metadata.Metadata
 import com.test.testapp.interfaces.services.VideoService
 import com.test.testapp.ui.base.BaseViewModel
 import kotlinx.coroutines.Dispatchers.IO
@@ -17,13 +18,13 @@ class PlayerViewModel @Inject constructor(
 ) : BaseViewModel(context) {
 
     val playerList: LiveData<List<String>> = videoService.getVideoList()
+    val metadata: LiveData<Metadata> = videoService.getMetaData()
     val playerView: MutableLiveData<View> = MutableLiveData()
 
 
     fun init() {
         viewModelScope.launch(IO + handler) {
             playerView.postValue(videoService.getView())
-
         }
     }
 

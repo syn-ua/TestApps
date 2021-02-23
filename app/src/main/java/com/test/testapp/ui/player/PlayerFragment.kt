@@ -3,6 +3,7 @@ package com.test.testapp.ui.player
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +22,10 @@ class PlayerFragment : BaseFragment(R.layout.screen_player) {
         viewModel.playerView.observe(viewLifecycleOwner, Observer { updatePlayerView(it) })
         viewModel.playerList.observe(viewLifecycleOwner, Observer {
             viewModel.start(it[0]);
+        })
+
+        viewModel.metadata.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_LONG).show()
         })
 
     }
